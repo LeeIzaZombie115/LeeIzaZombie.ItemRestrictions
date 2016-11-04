@@ -59,7 +59,7 @@ namespace ItemRestrictions
                         byte itemCount = player.Player.inventory.getItemCount(page);
                         for (byte index = 0; index < itemCount; index++)
                         {
-                            if (player.Player.inventory.getItem(page, index).Item.ItemID == item)
+                            if (player.Player.inventory.getItem(page, index).item.id == item)
                             {
                                 UnturnedChat.Say(player, Translate("item_notPermitted", UnturnedItems.GetItemAssetById(item).name), Color.red);
                                 player.Player.inventory.removeItem(page, index);
@@ -77,7 +77,7 @@ namespace ItemRestrictions
         {
             List<UnturnedPlayer> list = new List<UnturnedPlayer>();
 
-            foreach (SteamPlayer sp in Provider.Players)
+            foreach (SteamPlayer sp in Provider.clients)
             {
                 UnturnedPlayer p = UnturnedPlayer.FromSteamPlayer(sp);
                 list.Add(p);
@@ -88,7 +88,7 @@ namespace ItemRestrictions
 
         public void FixedUpdate()
         {
-            if (Level.isLoaded && Provider.Players.Count > 0)
+            if (Level.isLoaded && Provider.clients.Count > 0)
                 IntegrityCheck();
         }
 
@@ -97,7 +97,7 @@ namespace ItemRestrictions
         {
             if ((DateTime.Now - this.Second).TotalSeconds > Configuration.Instance.CheckInterval)
             {
-                if (Provider.Players.Count > 0)
+                if (Provider.clients.Count > 0)
                 {
                     foreach (UnturnedPlayer player in Players())
                     {
